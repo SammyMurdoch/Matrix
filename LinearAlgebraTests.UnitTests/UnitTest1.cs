@@ -174,9 +174,9 @@ namespace MatrixTests
 
             var m2 = new Matrix<int>(new int[,]
              {
-                { 3, 6 },
-                { 2, 5 },
-                { 1, 4 }
+                { 4, 1 },
+                { 5, 2 },
+                { 6, 3 }
              });
 
             Assert.AreEqual(m1, m2);
@@ -196,12 +196,34 @@ namespace MatrixTests
 
             var m2 = new Matrix<int>(new int[,]
              {
-                { 4, 1 },
-                { 5, 2 },
-                { 6, 3 }
+                { 3, 6 },
+                { 2, 5 },
+                { 1, 4 }
              });
 
             Assert.AreEqual(m1, m2);
         }
+
+        [TestMethod]
+        public void DoubleTranspose()
+        {
+            var m1 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+             });
+
+            m1.Transpose();
+            m1.Transpose();
+
+            var m2 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+             });
+
+            Assert.AreEqual(m1, m2);
+        }
+
     }
 }

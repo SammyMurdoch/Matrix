@@ -7,85 +7,6 @@ namespace linear_algebra
     {
         static void Main(string[] args)
         {
-            var m = new Matrix<int>(new int[,] {
-                { 1, 2, 3},
-                { 4, 5, 6}
-            });
-            AssertTrue(m[0, 0] == 1);
-            AssertTrue(m[1, 2] == 6);
-
-            var s1 = new Shape(3, 7);
-            var s2 = new Shape(3, 7);
-
-            AssertEqual(s1, s1);
-            AssertEqual(s1, s2);
-
-            AssertEqual(new Shape(2, 3), m.Shape);
-
-            Console.WriteLine(m.ToString());
-            Console.WriteLine();
-
-            m.MirrorHorizontally();
-            m.Transpose();
-
-            AssertEqual(new Shape(3, 2), m.Shape);
-
-            var t = m.GetTransformedIndex(0, 0);
-            int[] expected = {1, 0};
-            AssertArraysEqual(expected, t);
-
-            AssertTrue(m[0, 0] == 4);
-
-            Console.WriteLine(m.ToString());
-            Console.WriteLine();
-
-            var m2 = new Matrix<int>(new int[,] {
-                { 1, 2, 3},
-                { 4, 5, 6}
-            });
-
-            Console.WriteLine(m2.ToString());
-            Console.WriteLine();
-
-            m2.Transpose();
-            m2.MirrorHorizontally();
-
-            Console.WriteLine(m2.ToString());
-        }
-
-        static void AssertTrue(bool condition, string? message = null)
-        {
-            if (!condition)
-            {
-                var failureMessage = "Assertion Failed";
-                if (message != null)
-                {
-                    failureMessage += ": ";
-                    failureMessage += message;
-                }
-
-                throw new Exception(failureMessage);
-            }
-        }
-
-        static void AssertArraysEqual(int[] expected, int[] actual)
-        {
-            for (int i = 0; i < expected.Length; i++)
-            {
-                var message = ArrayToString(actual) + " was not " + ArrayToString(expected);
-                AssertTrue(expected[i] == actual[i], message);
-            }
-        }
-
-        static void AssertEqual(object expected, object actual)
-        {
-            var message = expected.ToString() + " was not " + actual.ToString();
-            AssertTrue(expected.Equals(actual), message);
-        }
-
-        static string ArrayToString(int[] array)
-        {
-            return "[" + string.Join(", ", array) + "]";
         }
     }
 
@@ -346,6 +267,11 @@ namespace linear_algebra
                     }
                 }
             }
+
+        //public override int GetHashCode()
+        //{
+        //    return rows.GetHashCode() + cols.GetHashCode();
+        //}
 
             return true;
             
