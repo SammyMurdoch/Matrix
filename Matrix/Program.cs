@@ -1,17 +1,91 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace linear_algebra 
 {
     class Program
     {
-        static void Main(string[] args) 
+        static void Main(string[] args)
         {
-            var m = new Matrix<int>(new int[,] { { 1, 2, 3}, { 4, 5, 6} });
+            var m = new Matrix<int>(new int[,] {
+                { 1, 2, 3},
+                { 4, 5, 6}
+            });
+            AssertTrue(m[0, 0] == 1);
+            AssertTrue(m[1, 2] == 6);
+
+            var s1 = new Shape(3, 7);
+            var s2 = new Shape(3, 7);
+
+            AssertEqual(s1, s1);
+            AssertEqual(s1, s2);
+
+            AssertEqual(new Shape(2, 3), m.Shape);
+
             Console.WriteLine(m.ToString());
+            Console.WriteLine();
+
             m.MirrorHorizontally();
             m.Transpose();
 
+            AssertEqual(new Shape(3, 2), m.Shape);
+
+            var t = m.GetTransformedIndex(0, 0);
+            int[] expected = {1, 0};
+            AssertArraysEqual(expected, t);
+
+            AssertTrue(m[0, 0] == 4);
+
             Console.WriteLine(m.ToString());
+            Console.WriteLine();
+
+            var m2 = new Matrix<int>(new int[,] {
+                { 1, 2, 3},
+                { 4, 5, 6}
+            });
+
+            Console.WriteLine(m2.ToString());
+            Console.WriteLine();
+
+            m2.Transpose();
+            m2.MirrorHorizontally();
+
+            Console.WriteLine(m2.ToString());
+        }
+
+        static void AssertTrue(bool condition, string? message = null)
+        {
+            if (!condition)
+            {
+                var failureMessage = "Assertion Failed";
+                if (message != null)
+                {
+                    failureMessage += ": ";
+                    failureMessage += message;
+                }
+
+                throw new Exception(failureMessage);
+            }
+        }
+
+        static void AssertArraysEqual(int[] expected, int[] actual)
+        {
+            for (int i = 0; i < expected.Length; i++)
+            {
+                var message = ArrayToString(actual) + " was not " + ArrayToString(expected);
+                AssertTrue(expected[i] == actual[i], message);
+            }
+        }
+
+        static void AssertEqual(object expected, object actual)
+        {
+            var message = expected.ToString() + " was not " + actual.ToString();
+            AssertTrue(expected.Equals(actual), message);
+        }
+
+        static string ArrayToString(int[] array)
+        {
+            return "[" + string.Join(", ", array) + "]";
         }
     }
 
@@ -31,10 +105,27 @@ namespace linear_algebra
             this.rows = this.cols;
             this.cols = temp;
         }
+        public override bool Equals(object? other)
+        {
+            if (other is Shape otherShape)
+            {
+                if (rows == otherShape.rows && cols == otherShape.cols)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         public override string ToString()
         {
             return $"({rows}, {cols})";
+        }
+
+        public override int GetHashCode()
+        {
+            return rows.GetHashCode() + cols.GetHashCode();
         }
     }
 
@@ -133,13 +224,16 @@ namespace linear_algebra
             }
         }
 
-        public int[] TransformIndices(int row, int col, Shape shape)
+        public int[] TransformIndices(int row, int col, Shape shape) // does it keep track of shape changes during the transformation process?
         {
             int[] transformedIndices = {row, col};
+            Shape transformedShape = shape;
 
             foreach (var transform in transforms.AsEnumerable().Reverse())
             {
-                transformedIndices = transformTypes[transform].TransformIndices(transformedIndices, shape);
+                transformedShape = transformTypes[transform].TransformShape(transformedShape);
+                transformedIndices = transformTypes[transform].TransformIndices(transformedIndices, transformedShape);
+
             }
 
             return transformedIndices;
@@ -149,9 +243,9 @@ namespace linear_algebra
         {
             var transformedShape = shape;
 
-            foreach (var transform in transforms.AsEnumerable().Reverse())
+            foreach (var transform in transforms)
             {
-                transformedShape = transformTypes[transform].TransformShape(shape);
+                transformedShape = transformTypes[transform].TransformShape(transformedShape);
             }
 
             return transformedShape;
@@ -177,7 +271,8 @@ namespace linear_algebra
         {
             get
             {
-                return transformations.TransformShape(this.shape); ;
+                return transformations.TransformShape(this.shape);
+
             }
         }
 
@@ -229,6 +324,31 @@ namespace linear_algebra
         public int[] GetTransformedIndex(int row, int col)
         {
             return transformations.TransformIndices(row, col, this.Shape);
+        }
+
+        public override bool Equals(object? other)
+        {
+            if (other is Matrix<T> otherMatrix)
+            {
+                if (!Equals(this.Shape, otherMatrix.Shape))
+                {
+                    Console.WriteLine($"{this.Shape  == otherMatrix.Shape}");
+                    return false;
+                }
+                for (int i = 0; i < Shape.rows; i++)
+                {
+                    for (int j = 0; j < Shape.cols; j++)
+                    {
+                        if (!EqualityComparer<T>.Default.Equals(this[i, j], otherMatrix[i, j]))
+                        {
+                            return false;
+                        } 
+                    }
+                }
+            }
+
+            return true;
+            
         }
     }
 }
