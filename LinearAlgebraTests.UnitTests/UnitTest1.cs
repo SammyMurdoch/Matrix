@@ -113,5 +113,95 @@ namespace MatrixTests
 
             Assert.AreEqual(m.Shape, new Shape(3, 2));
         }
+
+        [TestMethod]
+        public void TransposeMirrorHorizontally()
+        {
+            var m1 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+             });
+
+            m1.Transpose();
+            m1.MirrorHorizontally();
+
+            var m2 = new Matrix<int>(new int[,]
+             {
+                { 3, 6, 9 },
+                { 2, 5, 8 },
+                { 1, 4, 7 }
+             });
+
+            Assert.AreEqual(m1, m2);
+        }
+
+        [TestMethod]
+        public void MirrorHorizontallyTranspose()
+        {
+            var m1 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+             });
+
+            m1.MirrorHorizontally();
+            m1.Transpose();
+
+            var m2 = new Matrix<int>(new int[,]
+             {
+                { 7, 4, 1 },
+                { 8, 5, 2 },
+                { 9, 6, 3 }
+             });
+
+            Assert.AreEqual(m1, m2);
+        }
+
+        [TestMethod]
+        public void TransposeMirrorVertically()
+        {
+            var m1 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+             });
+
+            m1.Transpose();
+            m1.MirrorVertically();
+
+            var m2 = new Matrix<int>(new int[,]
+             {
+                { 3, 6 },
+                { 2, 5 },
+                { 1, 4 }
+             });
+
+            Assert.AreEqual(m1, m2);
+        }
+
+        [TestMethod]
+        public void MirrorVerticallyTranspose()
+        {
+            var m1 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+             });
+
+            m1.MirrorVertically();
+            m1.Transpose();
+
+            var m2 = new Matrix<int>(new int[,]
+             {
+                { 4, 1 },
+                { 5, 2 },
+                { 6, 3 }
+             });
+
+            Assert.AreEqual(m1, m2);
+        }
     }
 }
