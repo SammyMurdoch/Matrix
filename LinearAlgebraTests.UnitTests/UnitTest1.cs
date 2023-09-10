@@ -351,5 +351,31 @@ namespace LinearAlgebraTests
             Assert.AreEqual(tracker, UpdatedTracker);
 
         }
+
+        [TestMethod]
+        public void TempTest()
+        {
+            Dictionary<List<string>, List<string>> SimplifiedTransforms = new Dictionary<List<string>, List<string>>(new ListComparer<string>())
+            {
+                { new List<string> { "T", "T"}, new List<string> {"T"}}
+            };
+
+            bool IsKey = SimplifiedTransforms.ContainsKey(new List<string> { "T", "T" });
+
+            Assert.IsTrue(IsKey);
+        }
+
+        [TestMethod]
+        public void TempTest2()
+        {
+            Dictionary<string, string> SimplifiedTransforms = new Dictionary<string, string>()
+            {
+                {"Foo", "Bar" }
+            };
+
+            bool IsKey = SimplifiedTransforms.ContainsKey("Foo");
+
+            Assert.IsTrue(IsKey);
+        }
     }
 }

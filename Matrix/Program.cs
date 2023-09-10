@@ -107,7 +107,7 @@ namespace linear_algebra
             { "MH", new MirrorHorizontallyTransform() }
         };
 
-        private Dictionary<List<string>, List<string>> simplifiedTransforms = new Dictionary<List<string>, List<string>>() {
+        private Dictionary<List<string>, List<string>> simplifiedTransforms = new Dictionary<List<string>, List<string>>(new ListComparer<string>()) {
             { new List<string> { "T", "T" }, new List<string> { } },
             { new List<string> { "MH", "MH" }, new List<string> { } },
             { new List<string> { "MV", "MV" }, new List<string> { } },
@@ -148,12 +148,33 @@ namespace linear_algebra
         public void AddTransform(string transform)
         {
             this.transforms.Add(transform);
+            Console.WriteLine($"{ String.Join(", ", this.transforms)} 1");
 
-            List<string> value;
-            if (simplifiedTransforms.TryGetValue(this.transforms, out value))
+            for (int i = this.transforms.Count-1; i > 0; i--)
             {
-                this.transforms = value;
+                List<string> SimplifiedValue;
+
+                Console.WriteLine(String.Join(", ", this.transforms.GetRange(i-1, this.transforms.Count-i+1)));
+
+                Console.WriteLine(this.transforms.GetRange(i - 1, this.transforms.Count - i + 1));
+                Console.WriteLine("TYOE");
+                //Console.WriteLine(simplifiedTransforms[new List<string>{ "T", "T" }]);
+
+                if (simplifiedTransforms.TryGetValue(this.transforms.GetRange(i-1, this.transforms.Count-i+1), out SimplifiedValue))
+                {
+                    Console.WriteLine("We got a match");
+                    this.transforms.RemoveRange(i-1, this.transforms.Count-i+1);
+                    this.transforms.AddRange(SimplifiedValue);
+                    break;
+                }
             }
+            //Console.WriteLine($"{String.Join(", ", this.transforms)} 2");
+
+            //List<string> value;
+            //if (simplifiedTransforms.TryGetValue(this.transforms, out value))
+            //{
+            //    this.transforms = value;
+            //}
         }
 
         public int[] TransformIndices(int row, int col, Shape shape)
@@ -311,6 +332,24 @@ namespace linear_algebra
 
             return true;
             
+        }
+    }
+
+    public class ListComparer<T> : IEqualityComparer<List<T>>
+    {
+        public bool Equals(List<T> x, List<T> y)
+        {
+            return x.SequenceEqual(y);
+        }
+
+        public int GetHashCode(List<T> obj)
+        {
+            int hashcode = 0;
+            foreach (T t in obj)
+            {
+                hashcode ^= t.GetHashCode();
+            }
+            return hashcode;
         }
     }
 }
