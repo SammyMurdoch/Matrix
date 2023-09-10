@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.Design;
 using System.Diagnostics.CodeAnalysis;
 
 namespace linear_algebra 
@@ -210,6 +211,30 @@ namespace linear_algebra
         public void MirrorVertically()
         {
             transformations.AddTransform("MV");
+        }
+
+        public void Rotate(int degrees)
+        {
+            int[] ValidRotations = { 0, 90, 180, 270, 360 };
+            if (!ValidRotations.Contains(degrees))
+            {
+                throw new ArgumentException("Invalid rotation, only 0, 90, 180, 360 are valid.");
+            }
+            else if (degrees == 90)
+            {
+                this.MirrorHorizontally();
+                this.Transpose();
+            }
+            else if (degrees == 180)
+            {
+                this.MirrorHorizontally();
+                this.MirrorVertically();
+            }
+            else if(degrees == 270);
+            {
+                this.MirrorVertically();
+                this.Transpose();
+            }
         }
 
         public override string ToString() 
