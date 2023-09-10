@@ -130,9 +130,19 @@ namespace linear_algebra
             { new List<string> { "T", "MV", "MH", "MV" }, new List<string> { "T", "MH" } }
         };
 
+        public override string ToString()
+        {
+            return String.Join(", ", this.transforms);
+        }
+
         public MatrixTransformTracker()
         {
             this.transforms = new List<string>();
+        }
+
+        public MatrixTransformTracker(List<string> transforms)
+        {
+            this.transforms = transforms;
         }
 
         public void AddTransform(string transform)
@@ -146,7 +156,7 @@ namespace linear_algebra
             }
         }
 
-        public int[] TransformIndices(int row, int col, Shape shape) // does it keep track of shape changes during the transformation process?
+        public int[] TransformIndices(int row, int col, Shape shape)
         {
             int[] transformedIndices = {row, col};
             Shape transformedShape = shape;

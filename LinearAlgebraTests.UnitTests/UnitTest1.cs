@@ -105,7 +105,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void TransposeTest_Shape()
+        public void TransposeShapeTest()
         {
             var m = new Matrix<int>(new int[,]
             {
@@ -119,7 +119,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void TransposeMirrorHorizontally()
+        public void TransposeMirrorHorizontallyTest()
         {
             var m1 = new Matrix<int>(new int[,]
              {
@@ -142,7 +142,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void MirrorHorizontallyTranspose()
+        public void MirrorHorizontallyTransposeTest()
         {
             var m1 = new Matrix<int>(new int[,]
              {
@@ -165,7 +165,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void TransposeMirrorVertically()
+        public void TransposeMirrorVerticallyTest()
         {
             var m1 = new Matrix<int>(new int[,]
              {
@@ -187,7 +187,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void MirrorVerticallyTranspose()
+        public void MirrorVerticallyTransposeTest()
         {
             var m1 = new Matrix<int>(new int[,]
              {
@@ -209,7 +209,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void DoubleTranspose()
+        public void DoubleTransposeTest()
         {
             var m1 = new Matrix<int>(new int[,]
              {
@@ -230,7 +230,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void MirrorVerticallyMirrorHorizontally()
+        public void MirrorVerticallyMirrorHorizontallyTest()
         {
             var m1 = new Matrix<int>(new int[,]
              {
@@ -253,7 +253,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void Rotate90()
+        public void Rotate90Test()
         {
             var m1 = new Matrix<int>(new int[,]
              {
@@ -274,7 +274,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void Rotate180()
+        public void Rotate180Test()
         {
             var m1 = new Matrix<int>(new int[,]
              {
@@ -296,7 +296,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void Rotate270()
+        public void Rotate270Test()
         {
             var m1 = new Matrix<int>(new int[,]
              {
@@ -318,7 +318,7 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
-        public void Rotate271()
+        public void Rotate271Test()
         {
             var m1 = new Matrix<int>(new int[,]
              {
@@ -328,6 +328,27 @@ namespace LinearAlgebraTests
              });
 
             Assert.ThrowsException<ArgumentException>(() => m1.Rotate(271));
+
+        }
+    }
+
+    [TestClass]
+    public class MatrixTransformTrackerTests
+    {
+        [TestMethod]
+        public void MHMVTTSimplificationTest()
+        {
+            var tracker = new MatrixTransformTracker();
+
+            tracker.AddTransform("MH");
+            tracker.AddTransform("MV");
+            tracker.AddTransform("T");
+            tracker.AddTransform ("T");
+
+            var UpdatedTracker = new MatrixTransformTracker(new List<string> { "MH", "MV" });
+
+            Console.WriteLine(tracker.ToString());
+            Assert.AreEqual(tracker, UpdatedTracker);
 
         }
     }
