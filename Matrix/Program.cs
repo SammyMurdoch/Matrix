@@ -101,6 +101,8 @@ namespace linear_algebra
     {
         private List<string> transforms;
 
+        public List<string> Transforms { get { return transforms; } }
+
         private Dictionary<string, MatrixTransform> transformTypes = new Dictionary<string, MatrixTransform>() {
             { "T", new TransposeTransform() },
             { "MV", new MirrorVerticallyTransform() },

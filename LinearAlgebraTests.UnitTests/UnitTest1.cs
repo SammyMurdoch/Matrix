@@ -353,27 +353,57 @@ namespace LinearAlgebraTests
         [TestMethod]
         public void MHMVTTSimplificationTest()
         {
-            var tracker = new MatrixTransformTracker();
+            var Tracker1 = new MatrixTransformTracker();
 
-            tracker.AddTransform("MH");
-            Console.WriteLine(tracker.ToString());
+            Tracker1.AddTransform("MH");
+            Console.WriteLine(Tracker1.ToString());
 
-            tracker.AddTransform("MV");
-            Console.WriteLine(tracker.ToString());
+            Tracker1.AddTransform("MV");
+            Console.WriteLine(Tracker1.ToString());
 
-            tracker.AddTransform("T");
-            Console.WriteLine(tracker.ToString());
+            Tracker1.AddTransform("T");
+            Console.WriteLine(Tracker1.ToString());
 
-            tracker.AddTransform ("T");
-            Console.WriteLine(tracker.ToString());
+            Tracker1.AddTransform ("T");
+            Console.WriteLine(Tracker1.ToString());
 
+            var Tracker2 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
 
-            var UpdatedTracker = new MatrixTransformTracker(new List<string> { "MH", "MV" });
+            Console.WriteLine("HI");
+            Console.WriteLine(Tracker1.Transforms.ToString());
+            Console.WriteLine(Tracker2.Transforms.ToString());
 
-            Assert.AreEqual(tracker, UpdatedTracker);
+            Assert.AreEqual(Tracker1, Tracker2);
+        }
 
-            //CollectionAssert.AreEqual(tracker.t, UpdatedTracker); NEED TO WRITE EQUALS FUNCTION
+        [TestMethod]
+        public void EqualTransformTrackerTest()
+        {
+            var Tracker1 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
+            var Tracker2 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
 
+            Assert.AreEqual(Tracker1, Tracker2);
+        }
+
+        [TestMethod]
+        public void CongruentTransformTrackerTest()
+        {
+            var Tracker1 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
+            var Tracker2 = new MatrixTransformTracker();
+
+            Tracker2.AddTransform("MV");
+            Tracker2.AddTransform("MH");
+
+            Assert.AreEqual(Tracker1, Tracker2);
+        }
+
+        [TestMethod]
+        public void NotEqualTransformTrackerTest()
+        {
+            var Tracker1 = new MatrixTransformTracker(new List<string> { "MH", "T" });
+            var Tracker2 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
+
+            Assert.AreNotEqual(Tracker1, Tracker2);
         }
     }
 }
