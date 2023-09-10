@@ -1,10 +1,10 @@
 using linear_algebra;
 using System.ComponentModel.DataAnnotations;
 
-namespace MatrixTests
+namespace LinearAlgebraTests
 {
     [TestClass]
-    public class MatrixTests
+    public class ShapeTests
     {
         [TestMethod]
         public void ShapeEqualTest()
@@ -15,15 +15,19 @@ namespace MatrixTests
             Assert.AreEqual(s1, s2);
         }
 
-        [TestMethod] 
+        [TestMethod]
         public void ShapeNotEqualTest()
         {
             var s3 = new Shape(2, 3);
             var s4 = new Shape(3, 4);
 
-            Assert.AreNotEqual(s4 , s3);
+            Assert.AreNotEqual(s4, s3);
         }
+    }
 
+    [TestClass]
+    public class MatrixTests
+    {
         [TestMethod]
         public void MatrixEqualTest()
         {
@@ -225,5 +229,106 @@ namespace MatrixTests
             Assert.AreEqual(m1, m2);
         }
 
+        [TestMethod]
+        public void MirrorVerticallyMirrorHorizontally()
+        {
+            var m1 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+             });
+
+            var m2 = new Matrix<int>(new int[,]
+             {
+                { 9, 8, 7 },
+                { 6, 5, 4 },
+                { 3, 2, 1 }
+             });
+
+            m1.MirrorHorizontally();
+            m1.MirrorVertically();
+
+            Assert.AreEqual(m1, m2);
+        }
+
+        [TestMethod]
+        public void Rotate90()
+        {
+            var m1 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 }
+             });
+
+            var m2 = new Matrix<int>(new int[,]
+             {
+                { 4, 1 },
+                { 5, 2 },
+                { 6, 3 }
+             });
+
+            m1.Rotate(90);
+
+            Assert.AreEqual(m1, m2);
+        }
+
+        [TestMethod]
+        public void Rotate180()
+        {
+            var m1 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+             });
+
+            var m2 = new Matrix<int>(new int[,]
+             {
+                { 9, 8, 7 },
+                { 6, 5, 4 },
+                { 3, 2, 1 }
+             });
+
+            m1.Rotate(180);
+
+            Assert.AreEqual(m1, m2);
+        }
+
+        [TestMethod]
+        public void Rotate270()
+        {
+            var m1 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+             });
+
+            var m2 = new Matrix<int>(new int[,]
+             {
+                { 3, 6, 9 },
+                { 2, 5, 8 },
+                { 1, 4, 7 }
+             });
+
+            m1.Rotate(270);
+
+            Assert.AreEqual(m1, m2);
+        }
+
+        [TestMethod]
+        public void Rotate271()
+        {
+            var m1 = new Matrix<int>(new int[,]
+             {
+                { 1, 2, 3 },
+                { 4, 5, 6 },
+                { 7, 8, 9 }
+             });
+
+            Assert.ThrowsException<ArgumentException>(() => m1.Rotate(271));
+
+        }
     }
 }
