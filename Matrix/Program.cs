@@ -111,10 +111,10 @@ namespace linear_algebra
             { new List<string> { "T", "T" }, new List<string> { } },
             { new List<string> { "MH", "MH" }, new List<string> { } },
             { new List<string> { "MV", "MV" }, new List<string> { } },
+            { new List<string> { "MH", "MV" }, new List<string> { "MV", "MH"} },
 
             { new List<string> { "T", "MV", "T" }, new List<string> { "MH" } },
             { new List<string> { "T", "MH", "T" }, new List<string> { "MV" } },
-            { new List<string> { "T", "MH", "MV" }, new List<string> { "T", "MV", "MH" } },
 
             { new List<string> { "MV", "T", "MV" }, new List<string> { "T", "MV", "MH" } },
             { new List<string> { "MV", "T", "MH" }, new List<string> { "T" } },
@@ -123,8 +123,6 @@ namespace linear_algebra
 
             { new List<string> { "MH", "T", "MV" }, new List<string> { "T" } },
             { new List<string> { "MH", "T", "MH" }, new List<string> { "T", "MV", "MH" } },
-            { new List<string> { "MH", "MV", "T" }, new List<string> { "T", "MV", "MH" } },
-            { new List<string> { "MH", "MV", "MH" }, new List<string> { "MV" } },
 
             { new List<string> { "T", "MV", "MH", "T" }, new List<string> { "MH", "MV" } },
             { new List<string> { "T", "MV", "MH", "MV" }, new List<string> { "T", "MH" } }
@@ -142,28 +140,31 @@ namespace linear_algebra
 
         public MatrixTransformTracker(List<string> transforms)
         {
-            this.transforms = transforms;
+            this.transforms = new List<string>();
+
+            foreach (string transform in transforms)
+            {
+                if (!transformTypes.ContainsKey(transform))
+                {
+                    throw new ArgumentException("Invalid transform code.");
+                }
+
+                this.AddTransform(transform);
+            }
         }
 
         public void AddTransform(string transform)
         {
             this.transforms.Add(transform);
-            Console.WriteLine($"{ String.Join(", ", this.transforms)} 1");
 
-            for (int i = this.transforms.Count-1; i > 0; i--)
+            //for (int i = this.transforms.Count-1; i > 0; i--)
+            for (int i = 1; i < this.transforms.Count; i++)
             {
                 List<string> SimplifiedValue;
 
-                Console.WriteLine(String.Join(", ", this.transforms.GetRange(i-1, this.transforms.Count-i+1)));
-
-                Console.WriteLine(this.transforms.GetRange(i - 1, this.transforms.Count - i + 1));
-                Console.WriteLine("TYOE");
-                //Console.WriteLine(simplifiedTransforms[new List<string>{ "T", "T" }]);
-
-                if (simplifiedTransforms.TryGetValue(this.transforms.GetRange(i-1, this.transforms.Count-i+1), out SimplifiedValue))
+                if (simplifiedTransforms.TryGetValue(this.transforms.GetRange(i - 1, this.transforms.Count - i + 1), out SimplifiedValue))
                 {
-                    Console.WriteLine("We got a match");
-                    this.transforms.RemoveRange(i-1, this.transforms.Count-i+1);
+                    this.transforms.RemoveRange(i - 1, this.transforms.Count - i + 1);
                     this.transforms.AddRange(SimplifiedValue);
                     break;
                 }
@@ -179,7 +180,7 @@ namespace linear_algebra
 
         public int[] TransformIndices(int row, int col, Shape shape)
         {
-            int[] transformedIndices = {row, col};
+            int[] transformedIndices = { row, col };
             Shape transformedShape = shape;
 
             foreach (var transform in transforms.AsEnumerable().Reverse())
@@ -202,6 +203,22 @@ namespace linear_algebra
             }
 
             return transformedShape;
+        }
+
+        public override bool Equals(object? other)
+        {
+            if (other is MatrixTransformTracker otherTransformTracker)
+            {
+                Console.WriteLine("hi");
+                Console.WriteLine(String.Join(", ", this.transforms));
+                Console.WriteLine(String.Join(", ", otherTransformTracker.transforms));
+                Console.WriteLine("Done");
+                if (this.transforms.SequenceEqual(otherTransformTracker.transforms))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 
@@ -323,16 +340,15 @@ namespace linear_algebra
                         } 
                     }
                 }
+                return true;
             }
+            return false;  
+        }
 
         //public override int GetHashCode()
         //{
         //    return rows.GetHashCode() + cols.GetHashCode();
         //}
-
-            return true;
-            
-        }
     }
 
     public class ListComparer<T> : IEqualityComparer<List<T>>

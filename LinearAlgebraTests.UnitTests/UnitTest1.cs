@@ -71,6 +71,21 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
+        public void MatrixNotEqualTypeTest()
+        {
+            var m1 = new Matrix<int>(new int[,]
+            {
+                { 1, 2, 3},
+                { 4, 5, 6},
+                { 7, 8, 10}
+            });
+
+            var m2 = "hi";
+
+            Assert.AreNotEqual(m1, m2);
+        }
+
+        [TestMethod]
         public void MatrixNotEqualShapeTest()
         {
             var m1 = new Matrix<int>(new int[,]
@@ -341,41 +356,24 @@ namespace LinearAlgebraTests
             var tracker = new MatrixTransformTracker();
 
             tracker.AddTransform("MH");
+            Console.WriteLine(tracker.ToString());
+
             tracker.AddTransform("MV");
+            Console.WriteLine(tracker.ToString());
+
             tracker.AddTransform("T");
+            Console.WriteLine(tracker.ToString());
+
             tracker.AddTransform ("T");
+            Console.WriteLine(tracker.ToString());
+
 
             var UpdatedTracker = new MatrixTransformTracker(new List<string> { "MH", "MV" });
 
-            Console.WriteLine(tracker.ToString());
             Assert.AreEqual(tracker, UpdatedTracker);
 
-        }
+            //CollectionAssert.AreEqual(tracker.t, UpdatedTracker); NEED TO WRITE EQUALS FUNCTION
 
-        [TestMethod]
-        public void TempTest()
-        {
-            Dictionary<List<string>, List<string>> SimplifiedTransforms = new Dictionary<List<string>, List<string>>(new ListComparer<string>())
-            {
-                { new List<string> { "T", "T"}, new List<string> {"T"}}
-            };
-
-            bool IsKey = SimplifiedTransforms.ContainsKey(new List<string> { "T", "T" });
-
-            Assert.IsTrue(IsKey);
-        }
-
-        [TestMethod]
-        public void TempTest2()
-        {
-            Dictionary<string, string> SimplifiedTransforms = new Dictionary<string, string>()
-            {
-                {"Foo", "Bar" }
-            };
-
-            bool IsKey = SimplifiedTransforms.ContainsKey("Foo");
-
-            Assert.IsTrue(IsKey);
         }
     }
 }
