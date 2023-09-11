@@ -450,6 +450,24 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
+        public void SimplificationPathTest()
+        {
+            var PossibleTransforms = new List<string> { "T", "MH", "MV" };
+            var Tracker = new MatrixTransformTracker();
+
+            Random rnd = new Random();
+
+            for (int i = 0; i < 1000; i++)
+            {
+                int RandomIndex = rnd.Next(PossibleTransforms.Count);
+                Tracker.AddTransform(PossibleTransforms[RandomIndex]);
+            }
+
+            Assert.IsTrue(Tracker.Transforms.Count <= 4);
+        }
+
+
+        [TestMethod]
         public void EqualTransformTrackerTest()
         {
             var Tracker1 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
