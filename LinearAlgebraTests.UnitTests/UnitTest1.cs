@@ -356,22 +356,11 @@ namespace LinearAlgebraTests
             var Tracker1 = new MatrixTransformTracker();
 
             Tracker1.AddTransform("MH");
-            Console.WriteLine(Tracker1.ToString());
-
             Tracker1.AddTransform("MV");
-            Console.WriteLine(Tracker1.ToString());
-
             Tracker1.AddTransform("T");
-            Console.WriteLine(Tracker1.ToString());
-
             Tracker1.AddTransform ("T");
-            Console.WriteLine(Tracker1.ToString());
 
             var Tracker2 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
-
-            Console.WriteLine("HI");
-            Console.WriteLine(Tracker1.Transforms.ToString());
-            Console.WriteLine(Tracker2.Transforms.ToString());
 
             Assert.AreEqual(Tracker1, Tracker2);
         }
@@ -404,6 +393,18 @@ namespace LinearAlgebraTests
             var Tracker2 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
 
             Assert.AreNotEqual(Tracker1, Tracker2);
+        }
+
+        [TestMethod]
+        public void Test1()
+        {
+            var transforms = new List<string> { "MH", "MV", "T" };
+            var transforms2 = new List<string> { "MH", "MV", "T", "MH" };
+
+            transforms2.RemoveRange(3, 1);
+
+            Assert.IsTrue(transforms.SequenceEqual(transforms2));
+
         }
     }
 }

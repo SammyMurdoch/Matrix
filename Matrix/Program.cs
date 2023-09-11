@@ -36,7 +36,6 @@ namespace linear_algebra
                     return true;
                 }
             }
-
             return false;
         }
 
@@ -157,27 +156,29 @@ namespace linear_algebra
 
         public void AddTransform(string transform)
         {
+            bool TransformListUpdated = false;
+
             this.transforms.Add(transform);
 
-            //for (int i = this.transforms.Count-1; i > 0; i--)
-            for (int i = 1; i < this.transforms.Count; i++)
+            do
             {
-                List<string> SimplifiedValue;
-
-                if (simplifiedTransforms.TryGetValue(this.transforms.GetRange(i - 1, this.transforms.Count - i + 1), out SimplifiedValue))
+                Console.WriteLine(transform);
+                for (int i = 1; i < this.transforms.Count; i++)
                 {
-                    this.transforms.RemoveRange(i - 1, this.transforms.Count - i + 1);
-                    this.transforms.AddRange(SimplifiedValue);
-                    break;
-                }
-            }
-            //Console.WriteLine($"{String.Join(", ", this.transforms)} 2");
+                    List<string> SimplifiedValue;
 
-            //List<string> value;
-            //if (simplifiedTransforms.TryGetValue(this.transforms, out value))
-            //{
-            //    this.transforms = value;
-            //}
+                    if (simplifiedTransforms.TryGetValue(this.transforms.GetRange(i - 1, this.transforms.Count - i + 1), out SimplifiedValue))
+                    {
+                        this.transforms.RemoveRange(i - 1, this.transforms.Count - i + 1);
+                        this.transforms.AddRange(SimplifiedValue);
+                        TransformListUpdated = true;
+                        break;
+                    }
+                    TransformListUpdated = false;
+                }
+            } while (TransformListUpdated && this.transforms.Count >= 2);
+
+
         }
 
         public int[] TransformIndices(int row, int col, Shape shape)
@@ -211,10 +212,6 @@ namespace linear_algebra
         {
             if (other is MatrixTransformTracker otherTransformTracker)
             {
-                Console.WriteLine("hi");
-                Console.WriteLine(String.Join(", ", this.transforms));
-                Console.WriteLine(String.Join(", ", otherTransformTracker.transforms));
-                Console.WriteLine("Done");
                 if (this.transforms.SequenceEqual(otherTransformTracker.transforms))
                 {
                     return true;
@@ -244,7 +241,6 @@ namespace linear_algebra
             get
             {
                 return transformations.TransformShape(this.shape);
-
             }
         }
 
