@@ -366,6 +366,64 @@ namespace LinearAlgebraTests
         }
 
         [TestMethod]
+        public void TMVMHTSimplificationTest()
+        {
+            var Tracker1 = new MatrixTransformTracker();
+
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("T");
+
+            var Tracker2 = new MatrixTransformTracker(new List<string> { "MV", "MH" });
+
+            Assert.AreEqual(Tracker1, Tracker2);
+        }
+
+        [TestMethod]
+        public void TMVMHMVSimplificationTest()
+        {
+            var Tracker1 = new MatrixTransformTracker();
+
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("MV");
+
+            var Tracker2 = new MatrixTransformTracker(new List<string> { "T", "MH" });
+
+            Assert.AreEqual(Tracker1, Tracker2);
+        }
+
+        [TestMethod]
+        public void LongSimplificationTest()
+        {
+            var Tracker1 = new MatrixTransformTracker();
+
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MH");
+
+
+            var Tracker2 = new MatrixTransformTracker(new List<string> { "T", "MH" });
+
+            Assert.AreEqual(Tracker1, Tracker2);
+        }
+
+        [TestMethod]
         public void EqualTransformTrackerTest()
         {
             var Tracker1 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
@@ -393,18 +451,6 @@ namespace LinearAlgebraTests
             var Tracker2 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
 
             Assert.AreNotEqual(Tracker1, Tracker2);
-        }
-
-        [TestMethod]
-        public void Test1()
-        {
-            var transforms = new List<string> { "MH", "MV", "T" };
-            var transforms2 = new List<string> { "MH", "MV", "T", "MH" };
-
-            transforms2.RemoveRange(3, 1);
-
-            Assert.IsTrue(transforms.SequenceEqual(transforms2));
-
         }
     }
 }

@@ -125,8 +125,7 @@ namespace linear_algebra
             { new List<string> { "MH", "T", "MV" }, new List<string> { "T" } },
             { new List<string> { "MH", "T", "MH" }, new List<string> { "T", "MV", "MH" } },
 
-            { new List<string> { "T", "MV", "MH", "T" }, new List<string> { "MH", "MV" } },
-            { new List<string> { "T", "MV", "MH", "MV" }, new List<string> { "T", "MH" } }
+            { new List<string> { "T", "MV", "MH", "T" }, new List<string> { "MV", "MH" } }
         };
 
         public override string ToString()
@@ -162,7 +161,6 @@ namespace linear_algebra
 
             do
             {
-                Console.WriteLine(transform);
                 for (int i = 1; i < this.transforms.Count; i++)
                 {
                     List<string> SimplifiedValue;
