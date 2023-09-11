@@ -417,8 +417,34 @@ namespace LinearAlgebraTests
             Tracker1.AddTransform("T");
             Tracker1.AddTransform("MH");
 
-
             var Tracker2 = new MatrixTransformTracker(new List<string> { "T", "MH" });
+
+            Assert.AreEqual(Tracker1, Tracker2);
+        }
+
+        [TestMethod]
+        public void LongSimplificationTest2()
+        {
+            var Tracker1 = new MatrixTransformTracker();
+
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MV");
+            Tracker1.AddTransform("MH");
+            Tracker1.AddTransform("T");
+            Tracker1.AddTransform("MH");
+
+            var Tracker2 = new MatrixTransformTracker(new List<string> { "MH", "MV" });
 
             Assert.AreEqual(Tracker1, Tracker2);
         }
