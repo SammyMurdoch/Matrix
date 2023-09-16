@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Matrix", "Matrix\Matrix.csproj", "{BBA5A542-9000-4FA8-8197-584702B94D59}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LinearAlgebraTests.UnitTests", "LinearAlgebraTests.UnitTests\LinearAlgebraTests.UnitTests.csproj", "{F20CCD2E-2595-48ED-8330-B0C15403C250}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinearAlgebraTests.UnitTests", "LinearAlgebraTests.UnitTests\LinearAlgebraTests.UnitTests.csproj", "{F20CCD2E-2595-48ED-8330-B0C15403C250}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

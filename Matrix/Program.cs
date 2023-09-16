@@ -50,14 +50,14 @@ namespace linear_algebra
         }
     }
 
-    public interface MatrixTransform
+    interface IMatrixTransform
     {
         public int[] TransformIndices(int[] indices, Shape shape);
 
         public Shape TransformShape(Shape shape);
     }
 
-    public abstract class ShapeInvariantTransform: MatrixTransform
+    public abstract class ShapeInvariantTransform: IMatrixTransform
     {
         public abstract int[] TransformIndices(int[] indices, Shape shape);
 
@@ -67,7 +67,7 @@ namespace linear_algebra
         }
     }
 
-    public class TransposeTransform: MatrixTransform
+    public class TransposeTransform: IMatrixTransform
     {
         public int[] TransformIndices(int[] indices, Shape shape)
         {
@@ -102,7 +102,7 @@ namespace linear_algebra
 
         public List<string> Transforms { get { return transforms; } }
 
-        private Dictionary<string, MatrixTransform> transformTypes = new Dictionary<string, MatrixTransform>() {
+        private Dictionary<string, IMatrixTransform> transformTypes = new Dictionary<string, IMatrixTransform>() {
             { "T", new TransposeTransform() },
             { "MV", new MirrorVerticallyTransform() },
             { "MH", new MirrorHorizontallyTransform() }

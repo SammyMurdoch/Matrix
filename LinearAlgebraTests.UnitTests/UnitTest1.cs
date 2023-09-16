@@ -31,21 +31,7 @@ namespace LinearAlgebraTests
         [TestMethod]
         public void MatrixEqualTest()
         {
-            var m1 = new Matrix<int>(new int[,]
-            {
-                { 1, 2, 3},
-                { 4, 5, 6},
-                { 7, 8, 9}
-            });
-
-            var m2 = new Matrix<int>(new int[,]
-            {
-                { 1, 2, 3},
-                { 4, 5, 6},
-                { 7, 8, 9}
-            });
-
-            Assert.AreEqual(m1, m2);
+            Assert.AreEqual(ArbitraryMatrix, ArbitraryMatrix);
 
         }
 
@@ -73,16 +59,7 @@ namespace LinearAlgebraTests
         [TestMethod]
         public void MatrixNotEqualTypeTest()
         {
-            var m1 = new Matrix<int>(new int[,]
-            {
-                { 1, 2, 3},
-                { 4, 5, 6},
-                { 7, 8, 10}
-            });
-
-            var m2 = "hi";
-
-            Assert.AreNotEqual(m1, m2);
+            Assert.AreNotEqual(ArbitraryMatrix, "hi");
         }
 
         [TestMethod]
@@ -122,15 +99,13 @@ namespace LinearAlgebraTests
         [TestMethod]
         public void TransposeShapeTest()
         {
-            var m = new Matrix<int>(new int[,]
-            {
-                { 1, 2, 3},
-                { 4, 5, 6}
-            });
+            var m = ArbitraryMatrix;
+            var originalRows = m.Shape.rows;
+            var originalCols = m.Shape.cols;
 
             m.Transpose();
 
-            Assert.AreEqual(m.Shape, new Shape(3, 2));
+            Assert.AreEqual(m.Shape, new Shape(originalCols, originalRows));
         }
 
         [TestMethod]
@@ -226,20 +201,12 @@ namespace LinearAlgebraTests
         [TestMethod]
         public void DoubleTransposeTest()
         {
-            var m1 = new Matrix<int>(new int[,]
-             {
-                { 1, 2, 3 },
-                { 4, 5, 6 }
-             });
+            var m1 = ArbitraryMatrix;
 
             m1.Transpose();
             m1.Transpose();
 
-            var m2 = new Matrix<int>(new int[,]
-             {
-                { 1, 2, 3 },
-                { 4, 5, 6 }
-             });
+            var m2 = ArbitraryMatrix;
 
             Assert.AreEqual(m1, m2);
         }
@@ -335,15 +302,22 @@ namespace LinearAlgebraTests
         [TestMethod]
         public void Rotate271Test()
         {
-            var m1 = new Matrix<int>(new int[,]
-             {
-                { 1, 2, 3 },
-                { 4, 5, 6 },
-                { 7, 8, 9 }
-             });
+            Assert.ThrowsException<ArgumentException>(() => ArbitraryMatrix.Rotate(271));
 
-            Assert.ThrowsException<ArgumentException>(() => m1.Rotate(271));
+        }
 
+        private Matrix<int> ArbitraryMatrix 
+        {
+            get
+            {
+                return new Matrix<int>(new int[,]
+                {
+                    { 1, 2, 3 },
+                    { 4, 5, 6 },
+                    { 7, 8, 9 },
+                    { 10, 11, 12 }
+                });
+            }
         }
     }
 

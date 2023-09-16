@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dungeon_generator.UnitTests", "dungeon_generator.UnitTests\dungeon_generator.UnitTests.csproj", "{31ACA877-C8C9-4B96-88B0-2943ED0C89E0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D1E9CAA4-8A4C-45DA-8D71-3040DF9592B1} = {D1E9CAA4-8A4C-45DA-8D71-3040DF9592B1}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9DFF6F5B-91B0-438D-91AE-DF56AA914D32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DungeonGenerator", "DungeonGenerator\DungeonGenerator.csproj", "{D1E9CAA4-8A4C-45DA-8D71-3040DF9592B1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31ACA877-C8C9-4B96-88B0-2943ED0C89E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31ACA877-C8C9-4B96-88B0-2943ED0C89E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31ACA877-C8C9-4B96-88B0-2943ED0C89E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31ACA877-C8C9-4B96-88B0-2943ED0C89E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1E9CAA4-8A4C-45DA-8D71-3040DF9592B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1E9CAA4-8A4C-45DA-8D71-3040DF9592B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1E9CAA4-8A4C-45DA-8D71-3040DF9592B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1E9CAA4-8A4C-45DA-8D71-3040DF9592B1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A8312218-41F3-4E03-957D-42722B8E3467}
+	EndGlobalSection
+EndGlobal
